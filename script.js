@@ -2,19 +2,131 @@
 const addEmployeesBtn = document.querySelector('#add-employees-btn');
 
 // Collect employee data
-const collectEmployees = function() {
+const collectEmployees = function () {
   // TODO: Get user input to create and return an array of employee objects
-}
+
+  // for validation
+  const isValid = {
+    first: false,
+    last: false,
+    salary: false,
+  };
+
+  let continueAddingEmployee = true;
+  let cancelAddEmployee = false;
+
+  console.log('test');
+  function getFirstName() {
+    if (cancelAddEmployee) {
+      return;
+    }
+
+    while (!isValid.first) {
+      const newEmployeeFirst = prompt("Please enter the employee's first name");
+      if (newEmployeeFirst === null) {
+        cancelAddEmployee = true;
+        return;
+      }
+
+      // checks that user typed in the field
+      if (!newEmployeeFirst) {
+        alert("Please type the employee's first name");
+        console.log(newEmployeeFirst.length);
+      } else {
+        isValid.first = true;
+        return newEmployeeFirst;
+      }
+    }
+  }
+
+  function getLastName() {
+    if (cancelAddEmployee) {
+      return;
+    }
+
+    while (!isValid.last) {
+      const newEmployeeLast = prompt("Please enter the employee's last name");
+
+      if (newEmployeeLast === null) {
+        cancelAddEmployee = true;
+        return;
+      }
+
+      // checks that user typed in the field
+      if (!newEmployeeLast) {
+        alert("Please type the employee's last name");
+      } else {
+        isValid.last = true;
+        return newEmployeeLast;
+      }
+    }
+  }
+
+  function getSalary() {
+    if (cancelAddEmployee) {
+      return;
+    }
+
+    while (!isValid.salary) {
+      const newEmployeeSalary = Number(
+        prompt("Please enter the employee's salary")
+      );
+
+      if (newEmployeeSalary === null) {
+        cancelAddEmployee = true;
+        return;
+      }
+
+      if (!newEmployeeSalary) {
+        alert('Please enter a number for the salary');
+      } else {
+        isValid.salary = true;
+        return newEmployeeSalary;
+      }
+    }
+  }
+
+  function resetValidation() {
+    isValid.first = false;
+    isValid.last = false;
+    isValid.salary = false;
+  }
+
+  function shouldContinueAdding() {
+    if (cancelAddEmployee) {
+      return;
+    }
+
+    const addMore = confirm('Do you want to add another employee?');
+    if (addMore === false) {
+      continueAddingEmployee = false;
+    }
+  }
+
+  function getData() {
+    while (continueAddingEmployee) {
+      if (cancelAddEmployee) {
+        break;
+      }
+      const firstName = getFirstName();
+      const lastName = getLastName();
+      const salary = getSalary();
+      resetValidation();
+      shouldContinueAdding();
+    }
+  }
+  getData();
+};
 
 // Display the average salary
-const displayAverageSalary = function(employeesArray) {
+const displayAverageSalary = function (employeesArray) {
   // TODO: Calculate and display the average salary
-}
+};
 
 // Select a random employee
-const getRandomEmployee = function(employeesArray) {
+const getRandomEmployee = function (employeesArray) {
   // TODO: Select and display a random employee
-}
+};
 
 /*
   ====================
@@ -23,7 +135,7 @@ const getRandomEmployee = function(employeesArray) {
 */
 
 // Display employee data in an HTML table
-const displayEmployees = function(employeesArray) {
+const displayEmployees = function (employeesArray) {
   // Get the employee table
   const employeeTable = document.querySelector('#employee-table');
 
@@ -34,30 +146,30 @@ const displayEmployees = function(employeesArray) {
   for (let i = 0; i < employeesArray.length; i++) {
     const currentEmployee = employeesArray[i];
 
-    const newTableRow = document.createElement("tr");
+    const newTableRow = document.createElement('tr');
 
-    const firstNameCell = document.createElement("td");
+    const firstNameCell = document.createElement('td');
     firstNameCell.textContent = currentEmployee.firstName;
     newTableRow.append(firstNameCell);
 
-    const lastNameCell = document.createElement("td");
+    const lastNameCell = document.createElement('td');
     lastNameCell.textContent = currentEmployee.lastName;
     newTableRow.append(lastNameCell);
 
-    const salaryCell = document.createElement("td");
+    const salaryCell = document.createElement('td');
     // Format the salary as currency
-    salaryCell.textContent = currentEmployee.salary.toLocaleString("en-US",{
-      style:"currency",
-      currency:"USD"
+    salaryCell.textContent = currentEmployee.salary.toLocaleString('en-US', {
+      style: 'currency',
+      currency: 'USD',
     });
 
     newTableRow.append(salaryCell);
 
     employeeTable.append(newTableRow);
   }
-}
+};
 
-const trackEmployeeData = function() {
+const trackEmployeeData = function () {
   const employees = collectEmployees();
 
   console.table(employees);
@@ -68,7 +180,7 @@ const trackEmployeeData = function() {
 
   getRandomEmployee(employees);
 
-  employees.sort(function(a,b) {
+  employees.sort(function (a, b) {
     if (a.lastName < b.lastName) {
       return -1;
     } else {
@@ -77,7 +189,8 @@ const trackEmployeeData = function() {
   });
 
   displayEmployees(employees);
-}
+};
 
 // Add event listener to 'Add Employees' button
+// added a line down here to reset the cancelAddEmployee variable
 addEmployeesBtn.addEventListener('click', trackEmployeeData);
