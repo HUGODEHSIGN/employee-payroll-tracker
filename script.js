@@ -6,8 +6,6 @@ let prevEmployees = [];
 
 // Collect employee data
 const collectEmployees = function () {
-  // TODO: Get user input to create and return an array of employee objects
-
   // for validation
   const isValid = {
     first: false,
@@ -135,7 +133,15 @@ const collectEmployees = function () {
 
 // Display the average salary
 const displayAverageSalary = function (employeesArray) {
-  // TODO: Calculate and display the average salary
+  // Calculate and display the average salary
+  let totalSalary = 0;
+  employeesArray.forEach((employee) => {
+    totalSalary = totalSalary + employee.salary;
+  });
+  const length = employeesArray.length;
+  const average = totalSalary / length;
+  console.log(`The average salary among the employees is $${average}`);
+  console.log(`Your company has ${length} employees`);
 };
 
 // Select a random employee
