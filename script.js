@@ -6,6 +6,12 @@ let prevEmployees = [];
 
 // Collect employee data
 const collectEmployees = function () {
+  // true if you want to keep adding employees
+  let continueAddingEmployee = true;
+
+  // initial false, becomes true once user clicks on cancel on any of the prompts
+  let cancelAddEmployee = false;
+
   // for validation
   const isValid = {
     first: false,
@@ -13,11 +19,12 @@ const collectEmployees = function () {
     salary: false,
   };
 
-  // true if you want to keep adding employees
-  let continueAddingEmployee = true;
-
-  // initial false, becomes true once user clicks on cancel on any of the prompts
-  let cancelAddEmployee = false;
+  // resets all validation to false after user adds one employee
+  function resetValidation() {
+    isValid.first = false;
+    isValid.last = false;
+    isValid.salary = false;
+  }
 
   // returns user's first name
   function getFirstName() {
@@ -27,10 +34,11 @@ const collectEmployees = function () {
     }
 
     // loops through until valid response from user
+
     while (!isValid.first) {
       const newEmployeeFirst = prompt("Please enter the employee's first name");
 
-      // sets cancel prompt and prevents other's from running until add button is clicked again when user clicks cancel
+      // if user clicks cancel
       if (newEmployeeFirst === null) {
         cancelAddEmployee = true;
         return;
@@ -46,6 +54,10 @@ const collectEmployees = function () {
         return newEmployeeFirst;
       }
     }
+  }
+
+  function validateFirstName(name) {
+    return name.length > 0;
   }
 
   // function to get last name
@@ -100,13 +112,6 @@ const collectEmployees = function () {
         return newEmployeeSalary;
       }
     }
-  }
-
-  // resets all validation to false after user adds one employee
-  function resetValidation() {
-    isValid.first = false;
-    isValid.last = false;
-    isValid.salary = false;
   }
 
   // confirmation after a single loop to see if user wants to continue adding employees
